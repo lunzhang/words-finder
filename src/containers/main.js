@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import words from '../../words.json';
 
 const mapStateToProps = function mapStateToProps(state) {
   return {
