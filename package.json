@@ -5,6 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "dev": "webpack-dev-server --progress",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/.bin/eslint ./src --fix"
   },

@@ -18,14 +18,26 @@ html,body{
   }
 
   #generate-button {
-    position: relative;
-    top: 15px;
-    float: right;
+    display: block;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #3F51B5;
     background-color: #2196F3;
     color: white;
+    margin: 10px;
+    width: 90px;
+    cursor: pointer;
+  }
+
+  #clear-button {
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #D50000;
+    background-color: #F44336;
+    color: white;
+    margin: 10px;
+    width: 90px;
     cursor: pointer;
   }
 }
