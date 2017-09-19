@@ -12,7 +12,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      available_letters: [],
+      availableLetters: [],
       letters: [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
       'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',],
       letter_values: {' ': 0, 'a': 1, 'b': 4, 'c': 4, 'd': 2, 'e': 1, 'f': 4, 'g': 3, 'h': 3,
@@ -20,7 +20,8 @@ class Main extends Component {
       't': 1, 'u': 2, 'v': 5, 'w': 4, 'x': 8, 'y': 3, 'z': 10,},
       letter_positions: {' ': -1, 'a': -1, 'b': -1, 'c': -1, 'd': -1, 'e': -1, 'f': -1, 'g': -1, 'h': -1,
       'i': -1, 'j': -1, 'k': -1, 'l': -1, 'm': -1, 'n': -1, 'o': -1, 'p': -1, 'q': -1, 'r': -1, 's': -1,
-      't': -1, 'u': -1, 'v': -1, 'w': -1, 'x': -1, 'y': -1, 'z': -1,}
+      't': -1, 'u': -1, 'v': -1, 'w': -1, 'x': -1, 'y': -1, 'z': -1,},
+      words: [],
     };
     this.addLetter = this.addLetter.bind(this);
     this.removeLetter = this.removeLetter.bind(this);
@@ -33,7 +34,7 @@ class Main extends Component {
       <div id="main">
         <div id="available-letters">
             {
-              this.state.available_letters.map((letter, index) => {
+              this.state.availableLetters.map((letter, index) => {
                 return (
                     <div className="letter unselectable" key={index}>
                       {letter}
@@ -70,21 +71,32 @@ class Main extends Component {
             })
           }
         </div>
+        <div id="words">
+          {
+            this.state.words.map((word, i) => {
+              return (
+                <div className="word" key={i}>
+                  {word.value} - {word.point}
+                </div>
+              );
+            })
+          }
+        </div>
       </div>
     );
   }
 
   addLetter(letter) {
-    if(this.state.available_letters.length < 7) {
+    if(this.state.availableLetters.length < 7) {
       this.setState({
-        available_letters: this.state.available_letters.concat(letter)
+        availableLetters: this.state.availableLetters.concat(letter)
       });
     }
   }
 
   removeLetter(index) {
       this.setState({
-        available_letters: this.state.available_letters.filter((_, i) => i !== index)
+        availableLetters: this.state.availableLetters.filter((_, i) => i !== index)
       })
   }
 
@@ -100,30 +112,66 @@ class Main extends Component {
   generateWords() {
       let foundWords = [];
       let requiredWords = [];
-      let current_letters = [];
-      let available_letters = this.state.available_letters.slice().sort();
+      let currentLetters = [];
 
+      // check for required letters
       Object.keys(this.state.letter_positions).forEach((letter) => {
-        if(this.state.letter_positions[letter] === 0) {
+        // position doesn't matter, just add it to required list
+        if(this.state.letter_positions[letter] == 0) {
           requiredWords.push(letter);
         } else if(this.state.letter_positions[letter] > 0){
-          current_letters[this.state.letter_positions[letter] - 1] = letter;
+          // position matters, add to current letters list
+          currentLetters[this.state.letter_positions[letter] - 1] = letter;
         }
       });
 
+      let availableLetters = this.state.availableLetters.concat(requiredWords).sort();
+
       function permutateWords(letters) {
-          // add to words if letter is not empty, filled, and found
+          // add to words if letter is not empty, filled, found, and required words is all used
           if(letters.length > 0 && Object.keys(letters).length === letters.length
-          && words[letters.join('')]) foundWords.push(letters.join(''));
+          && requiredWords.length === 0 && words[letters.join('')]) {
+            let point = 0;
+            for(let i = 0; i < letters.length; i++) {
+              point += this.state.letter_values[letters[i]];
+            }
 
-          for(let i = 0; i < available_letters.length; i++) {
+            foundWords.push({
+              point,
+              value: letters.join('')
+            });
+          }
+
+          for(let i = 0; i < availableLetters.length; i++) {
               // skip same letters
-              if(available_letters[i] === available_letters[i + 1]) continue;
+              if(availableLetters[i] === availableLetters[i + 1]) continue;
 
-              let letter = available_letters.splice(i, 1)[0];
-              let new_letters = addToArray(letters, letter);
-              permutateWords(new_letters);
-              available_letters.splice(i, 0, letter);
+              let letter = availableLetters.splice(i, 1)[0];
+              let isRequired = false;
+
+              // if letter is required, set required tag so we know letter is used
+              if(requiredWords.indexOf(letter) > -1) {
+                requiredWords.splice(requiredWords.indexOf(letter), 1);
+                isRequired = true;
+              }
+
+              if(letter === ' ') {
+                // for wild letter, try all letters
+                for(let j = 1; j < this.state.letters.length; j++) {
+                  let new_letters = addToArray(letters, this.state.letters[j]);
+                  permutateWords.call(this, new_letters);
+                }
+              } else {
+                let new_letters = addToArray(letters, letter);
+                permutateWords.call(this, new_letters);
+              }
+
+              // add letter back to required if it was used
+              if(isRequired) {
+                requiredWords.push(letter);
+              }
+
+              availableLetters.splice(i, 0, letter);
           }
       }
 
@@ -138,9 +186,13 @@ class Main extends Component {
         }
       }
 
-      permutateWords(current_letters);
+      permutateWords.call(this, currentLetters);
 
       console.log(foundWords);
+
+      this.setState({
+        words: foundWords
+      });
   }
 }
 
