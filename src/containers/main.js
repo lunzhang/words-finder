@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AvailableLetters from '../components/AvailableLetters';
+import AllLetters from '../components/AllLetters';
 import words from '../../words.json';
 
 const mapStateToProps = function mapStateToProps(state) {
@@ -14,37 +15,9 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      letterPositions: { ' ': -1,
-        a: -1,
-        b: -1,
-        c: -1,
-        d: -1,
-        e: -1,
-        f: -1,
-        g: -1,
-        h: -1,
-        i: -1,
-        j: -1,
-        k: -1,
-        l: -1,
-        m: -1,
-        n: -1,
-        o: -1,
-        p: -1,
-        q: -1,
-        r: -1,
-        s: -1,
-        t: -1,
-        u: -1,
-        v: -1,
-        w: -1,
-        x: -1,
-        y: -1,
-        z: -1 },
       words: [],
     };
     this.addLetter = this.addLetter.bind(this);
-    this.updateLetterPosition = this.updateLetterPosition.bind(this);
     this.generateWords = this.generateWords.bind(this);
   }
 
@@ -52,23 +25,7 @@ class Main extends Component {
     return (
       <div id="main">
         <AvailableLetters ref="availableLetters" letterValues={this.props.letterValues} generateWords={this.generateWords}/>
-        <div id="letters">
-          {
-            this.props.letters.map(letter => (
-              <div className="letter-wrapper" key={letter}>
-                <div onClick={() => this.addLetter(letter)} className="letter unselectable" >
-                  {letter}
-                  <div className="point">
-                    {this.props.letterValues[letter]}
-                  </div>
-                </div>
-                <div className="letter-position">
-                  <input onChange={e => this.updateLetterPosition(e, letter)} type="number" value={this.state.letterPositions[letter]} />
-                </div>
-              </div>
-            ))
-          }
-        </div>
+        <AllLetters ref="allLetters" letters={this.props.letters} letterValues={this.props.letterValues} addLetter={this.addLetter} />
         <div id="words">
           {
             this.state.words.map((word, i) => (
@@ -86,28 +43,20 @@ class Main extends Component {
       this.refs.availableLetters.addLetter(letter);
   }
 
-  updateLetterPosition(e, letter) {
-    const newLetterPosition = Object.assign({}, this.state.letterPositions);
-    if (e.target.value > -2 && e.target.value < 9) newLetterPosition[letter] = parseInt(e.target.value, 10);
-
-    this.setState({
-      letterPositions: newLetterPosition,
-    });
-  }
-
   generateWords(letterTiles) {
     const foundWords = [];
     const requiredWords = [];
     const currentLetters = [];
+    const letterPositions = this.refs.allLetters.state.letterPositions;
 
     // check for required letters
-    Object.keys(this.state.letterPositions).forEach((letter) => {
+    Object.keys(letterPositions).forEach((letter) => {
       // position doesn't matter, just add it to required list
-      if (this.state.letterPositions[letter] === 0) {
+      if (letterPositions[letter] === 0) {
         requiredWords.push(letter);
-      } else if (this.state.letterPositions[letter] > 0) {
+      } else if (letterPositions[letter] > 0) {
         // position matters, add to current letters list
-        currentLetters[this.state.letterPositions[letter] - 1] = letter;
+        currentLetters[letterPositions[letter] - 1] = letter;
       }
     });
 
