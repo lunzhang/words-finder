@@ -1,20 +1,43 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import AvailableLetters from '../components/AvailableLetters';
 import AllLetters from '../components/AllLetters';
 import Words from '../components/Words';
 import words from '../../words.json';
 
-const mapStateToProps = function mapStateToProps(state) {
-  return {
-    letters: state.letters,
-    letterValues: state.letterValues,
-  };
-};
-
-class Main extends Component {
+export default class Main extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      letters: [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+        'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
+      letterValues: { ' ': 0,
+        a: 1,
+        b: 4,
+        c: 4,
+        d: 2,
+        e: 1,
+        f: 4,
+        g: 3,
+        h: 3,
+        i: 1,
+        j: 10,
+        k: 5,
+        l: 2,
+        m: 4,
+        n: 2,
+        o: 1,
+        p: 4,
+        q: 10,
+        r: 1,
+        s: 1,
+        t: 1,
+        u: 2,
+        v: 5,
+        w: 4,
+        x: 8,
+        y: 3,
+        z: 10 },
+    };
     this.addLetter = this.addLetter.bind(this);
     this.clearLetters = this.clearLetters.bind(this);
     this.generateWords = this.generateWords.bind(this);
@@ -43,8 +66,8 @@ class Main extends Component {
             4. Click on Clear to remove all the selected letters and reset all indexes on letters.
           </p>
         </div>
-        <AvailableLetters ref="availableLetters" letterValues={this.props.letterValues} generateWords={this.generateWords} clearLetters={this.clearLetters} />
-        <AllLetters ref="allLetters" letters={this.props.letters} letterValues={this.props.letterValues} addLetter={this.addLetter} />
+        <AvailableLetters ref="availableLetters" letterValues={this.state.letterValues} generateWords={this.generateWords} clearLetters={this.clearLetters} />
+        <AllLetters ref="allLetters" letters={this.state.letters} letterValues={this.state.letterValues} addLetter={this.addLetter} />
         <Words ref="words" />
       </div>
     );
@@ -95,7 +118,7 @@ class Main extends Component {
           && requiredWords.length === 0 && words[letters.join('')]) {
         let point = 0;
         for (let i = 0; i < letters.length; i++) {
-          point += this.props.letterValues[letters[i]];
+          point += this.state.letterValues[letters[i]];
         }
 
         foundWords.push({
@@ -118,8 +141,8 @@ class Main extends Component {
 
           if (letter === ' ') {
             // for wild letter, try all letters
-            for (let j = 1; j < this.props.letters.length; j++) {
-              const newLetters = addToArray(letters, this.props.letters[j]);
+            for (let j = 1; j < this.state.letters.length; j++) {
+              const newLetters = addToArray(letters, this.state.letters[j]);
               permutateWords.call(this, newLetters);
             }
           } else {
@@ -150,5 +173,3 @@ class Main extends Component {
     });
   }
 }
-
-export default connect(mapStateToProps)(Main);
