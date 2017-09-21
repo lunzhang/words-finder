@@ -14,20 +14,22 @@ export default class AvailableLetters extends Component {
   render() {
     return (
       <div id="available-letters">
-        {
-          this.state.availableLetters.map((letter, index) => (
-            <div className="letter unselectable" key={index}>
-              {letter}
-              <div onClick={() => this.removeLetter(index)} className="remove-letter">
-                X
+        <div className="available-letter-wrapper">
+          {
+            this.state.availableLetters.map((letter, index) => (
+              <div className="letter unselectable" key={index}>
+                {letter}
+                <div onClick={() => this.removeLetter(index)} className="remove-letter">
+                  X
+                </div>
+                <div className="point">
+                  {this.props.letterValues[letter]}
+                </div>
               </div>
-              <div className="point">
-                {this.props.letterValues[letter]}
-              </div>
-            </div>
-          ))
-        }
-        <div style={{ float: 'right' }}>
+            ))
+          }
+        </div>
+        <div className="available-button-wrapper">
           <button id="generate-button" onClick={() => this.props.generateWords(this.state.availableLetters)}>
               Generate
           </button>

@@ -45,10 +45,16 @@ html,body{
         width: 50px;
         margin-left: 10px;
         font-size: 16px;
+        border: 1px solid grey;
       }
     }
   }
 
+  .clear-button-wrapper {
+    display: inline-block;
+    position: relative;
+    bottom: 30px;
+  }
 }
 
 #words {
@@ -117,4 +123,73 @@ html,body{
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.available-button-wrapper {
+  float: right;
+}
+
+.available-letter-wrapper {
+  display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+
+  #available-letters {
+    height: 100px;
+
+    .available-letter-wrapper {
+      height: 50px;
+      margin-top: 15px;
+      display: block;
+    }
+
+    .available-button-wrapper {
+      float: none;
+      margin-top: 5px;
+    }
+
+    .letter {
+      width: 45px;
+      height: 45px;
+      margin: 3px;
+      font-size: 30px;
+    }
+
+    #generate-button, .clear-button {
+        display: inline-block;
+    }
+  }
+
+  #instructions {
+    h1 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  #letters {
+    .letter-wrapper {
+      .letter-position {
+        input {
+          width: 45px;
+          margin-left: 12px;
+        }
+      }
+    }
+
+    .clear-button-wrapper {
+      bottom: -10px;
+    }
+  }
+
+  #words {
+    h2 {
+      margin: 10px 15px;
+    }
+  }
+
 }

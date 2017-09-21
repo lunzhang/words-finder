@@ -54,7 +54,7 @@ export default class AllLetters extends Component {
             </div>
           ))
         }
-        <div style={{ display: 'inline-block', position: 'relative', bottom: '30px' }}>
+        <div className="clear-button-wrapper">
           <button className="clear-button" onClick={this.clearPositions}>
               Clear Positions
           </button>
