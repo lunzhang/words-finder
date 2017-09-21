@@ -18,6 +18,12 @@ export default class Words extends Component {
             </div>
           ))
         }
+        {
+          this.state.words.length === 0 &&
+          <h2>
+            No Words Found!
+          </h2>
+        }
       </div>
     );
   }

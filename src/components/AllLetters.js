@@ -32,6 +32,7 @@ export default class AllLetters extends Component {
         y: -1,
         z: -1 },
     };
+    this.clearPositions = this.clearPositions.bind(this);
     this.updateLetterPosition = this.updateLetterPosition.bind(this);
   }
 
@@ -53,6 +54,11 @@ export default class AllLetters extends Component {
             </div>
           ))
         }
+        <div style={{ display: 'inline-block', position: 'relative', bottom: '30px' }}>
+          <button className="clear-button" onClick={this.clearPositions}>
+              Clear Positions
+          </button>
+        </div>
       </div>
     );
   }
@@ -67,7 +73,7 @@ export default class AllLetters extends Component {
   }
 
   // reset all letter positions back to -1
-  clearLetters() {
+  clearPositions() {
     const newLetterPositions = {};
     Object.keys(this.state.letterPositions).forEach((key) => {
       newLetterPositions[key] = -1;

@@ -31,8 +31,8 @@ export default class AvailableLetters extends Component {
           <button id="generate-button" onClick={() => this.props.generateWords(this.state.availableLetters)}>
               Generate
           </button>
-          <button id="clear-button" onClick={this.clearLetters}>
-              Clear
+          <button className="clear-button" onClick={this.clearLetters}>
+              Clear Letters
           </button>
         </div>
       </div>
@@ -58,6 +58,5 @@ export default class AvailableLetters extends Component {
     this.setState({
       availableLetters: [],
     });
-    this.props.clearLetters();
   }
 }

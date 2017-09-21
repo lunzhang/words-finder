@@ -25,19 +25,7 @@ html,body{
     background-color: #26a69a;
     color: white;
     margin: 10px;
-    width: 90px;
-    cursor: pointer;
-  }
-
-  #clear-button {
-    display: block;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: #ee6e73;
-    color: white;
-    margin: 10px;
-    width: 90px;
+    width: 110px;
     cursor: pointer;
   }
 }
@@ -69,6 +57,10 @@ html,body{
   .word {
     display: inline-block;
     padding: 10px 20px;
+  }
+
+  h2 {
+    margin: 10px 20px;
   }
 }
 
@@ -104,6 +96,18 @@ html,body{
     right: 5px;
     bottom: 0px;
   }
+}
+
+.clear-button {
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #ee6e73;
+  color: white;
+  margin: 10px;
+  width: 110px;
+  cursor: pointer;
 }
 
 .unselectable {

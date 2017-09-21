@@ -39,7 +39,6 @@ export default class Main extends Component {
         z: 10 },
     };
     this.addLetter = this.addLetter.bind(this);
-    this.clearLetters = this.clearLetters.bind(this);
     this.generateWords = this.generateWords.bind(this);
   }
 
@@ -63,10 +62,13 @@ export default class Main extends Component {
             3. Click on Generate to get a list of available words from the letters, ordered based on descending point value.
           </p>
           <p>
-            4. Click on Clear to remove all the selected letters and reset all indexes on letters.
+            4. Click on Clear Letters to remove all the selected letters.
+          </p>
+          <p>
+            5. Click on Clear Positions to reset all letter positions.
           </p>
         </div>
-        <AvailableLetters ref="availableLetters" letterValues={this.state.letterValues} generateWords={this.generateWords} clearLetters={this.clearLetters} />
+        <AvailableLetters ref="availableLetters" letterValues={this.state.letterValues} generateWords={this.generateWords} />
         <AllLetters ref="allLetters" letters={this.state.letters} letterValues={this.state.letterValues} addLetter={this.addLetter} />
         <Words ref="words" />
       </div>
@@ -75,10 +77,6 @@ export default class Main extends Component {
 
   addLetter(letter) {
     this.refs.availableLetters.addLetter(letter);
-  }
-
-  clearLetters() {
-    this.refs.allLetters.clearLetters();
   }
 
   generateWords(letterTiles) {
