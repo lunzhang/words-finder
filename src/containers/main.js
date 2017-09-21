@@ -28,7 +28,7 @@ class Main extends Component {
             Instructions
           </h1>
           <p>
-            1. Click on the tiles to add letters.
+            1. Click on the tiles to add letters. Maximum of 7 letters.
           </p>
           <p>
             2. Set the index under each tile to reflect must use letters.
