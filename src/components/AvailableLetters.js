@@ -4,7 +4,7 @@ export default class AvailableLetters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      availableLetters: []
+      availableLetters: [],
     };
     this.addLetter = this.addLetter.bind(this);
     this.removeLetter = this.removeLetter.bind(this);
@@ -53,9 +53,11 @@ export default class AvailableLetters extends Component {
     });
   }
 
+  // clears all added letters
   clearLetters() {
     this.setState({
       availableLetters: [],
     });
+    this.props.clearLetters();
   }
 }

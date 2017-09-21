@@ -65,4 +65,16 @@ export default class AllLetters extends Component {
       letterPositions: newLetterPosition,
     });
   }
+
+  // reset all letter positions back to -1
+  clearLetters() {
+    const newLetterPositions = {};
+    Object.keys(this.state.letterPositions).forEach((key) => {
+      newLetterPositions[key] = -1;
+    });
+
+    this.setState({
+      letterPositions: newLetterPositions,
+    });
+  }
 }

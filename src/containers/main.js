@@ -24,7 +24,7 @@ class Main extends Component {
   render() {
     return (
       <div id="main">
-        <AvailableLetters ref="availableLetters" letterValues={this.props.letterValues} generateWords={this.generateWords}/>
+        <AvailableLetters ref="availableLetters" letterValues={this.props.letterValues} generateWords={this.generateWords} clearLetters={this.clearLetters} />
         <AllLetters ref="allLetters" letters={this.props.letters} letterValues={this.props.letterValues} addLetter={this.addLetter} />
         <div id="words">
           {
@@ -40,7 +40,11 @@ class Main extends Component {
   }
 
   addLetter(letter) {
-      this.refs.availableLetters.addLetter(letter);
+    this.refs.availableLetters.addLetter(letter);
+  }
+
+  clearLetters() {
+    this.refs.allLetters.clearLetters();
   }
 
   generateWords(letterTiles) {
