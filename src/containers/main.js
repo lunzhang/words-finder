@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AvailableLetters from '../components/AvailableLetters';
 import AllLetters from '../components/AllLetters';
+import Words from '../components/Words';
 import words from '../../words.json';
 
 const mapStateToProps = function mapStateToProps(state) {
@@ -14,10 +15,8 @@ const mapStateToProps = function mapStateToProps(state) {
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      words: [],
-    };
     this.addLetter = this.addLetter.bind(this);
+    this.clearLetters = this.clearLetters.bind(this);
     this.generateWords = this.generateWords.bind(this);
   }
 
@@ -26,15 +25,7 @@ class Main extends Component {
       <div id="main">
         <AvailableLetters ref="availableLetters" letterValues={this.props.letterValues} generateWords={this.generateWords} clearLetters={this.clearLetters} />
         <AllLetters ref="allLetters" letters={this.props.letters} letterValues={this.props.letterValues} addLetter={this.addLetter} />
-        <div id="words">
-          {
-            this.state.words.map((word, i) => (
-              <div className="word" key={i}>
-                {word.value} - {word.point}
-              </div>
-            ))
-          }
-        </div>
+        <Words ref="words" />
       </div>
     );
   }
@@ -126,9 +117,15 @@ class Main extends Component {
       }
     }
 
+    function sortWords(a, b) {
+      return b.point - a.point;
+    }
+
     permutateWords.call(this, currentLetters);
 
-    this.setState({
+    foundWords.sort(sortWords);
+
+    this.refs.words.setState({
       words: foundWords,
     });
   }
