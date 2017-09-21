@@ -40,6 +40,11 @@ export default class Main extends Component {
     };
     this.addLetter = this.addLetter.bind(this);
     this.generateWords = this.generateWords.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyPress, false);
   }
 
   render() {
@@ -67,12 +72,22 @@ export default class Main extends Component {
           <p>
             5. Click on Clear Positions to reset all letter positions.
           </p>
+          <p>
+            6. You can add keys using keyboard.  Spacebar is empty tile.
+          </p>
         </div>
         <AvailableLetters ref="availableLetters" letterValues={this.state.letterValues} generateWords={this.generateWords} />
         <AllLetters ref="allLetters" letters={this.state.letters} letterValues={this.state.letterValues} addLetter={this.addLetter} />
         <Words ref="words" />
       </div>
     );
+  }
+
+  onKeyPress(e) {
+    // add letters on key press
+    if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode === 32)) {
+      this.addLetter(e.key);
+    }
   }
 
   addLetter(letter) {

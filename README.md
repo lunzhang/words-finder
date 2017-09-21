@@ -19,3 +19,6 @@
 <p>
   5. Click on Clear Positions to reset all letter positions.
 </p>
+<p>
+  6. You can add keys using keyboard.  Spacebar is empty tile.
+</p>
